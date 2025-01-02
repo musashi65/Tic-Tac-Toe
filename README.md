@@ -11,7 +11,7 @@ A Python-based Tic-Tac-Toe game with player-vs-player and AI modes.
 - Clear game board display and feedback.
 - Replay option at the end of each game.
 
-### Step 3: Run the Game
+### Run the Game
 Run the following command to start the game:
 
 ```bash

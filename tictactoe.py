@@ -63,7 +63,7 @@ def player_move(board, player_symbol):
         except ValueError:
             print("Invalid input. Please enter a number between 1 and 9")
 
-def minimax(board, ai_symbol, depth, is_maximizing):
+def minimax(board, ai_symbol, depth, is_maximizing, alpha, beta):
     opponent_symbol = "X" if ai_symbol == "O" else "O"
     empty_pos = find_empty_pos(board)
     
@@ -76,24 +76,30 @@ def minimax(board, ai_symbol, depth, is_maximizing):
         return 0
     
     if is_maximizing:
-        best_score = -1000
+        best_score = float("-inf")
         
         for row, col in empty_pos: 
             board[row][col] = ai_symbol
-            score = minimax(board, ai_symbol, depth + 1, False)
+            score = minimax(board, ai_symbol, depth + 1, False, alpha, beta)
             
             board[row][col] = " "
             best_score = max(best_score, score)
+            alpha = max(alpha, best_score)
+            if beta <= alpha:
+                break
         return best_score
     
     else:
-        best_score = 1000
+        best_score = float("inf")
         for row, col in empty_pos:
             board[row][col] = opponent_symbol
-            score = minimax(board, ai_symbol, depth + 1, True)
+            score = minimax(board, ai_symbol, depth + 1, True, alpha, beta)
             
             board[row][col] = " "
             best_score = min(best_score, score)
+            beta = min(beta, best_score)
+            if beta <= alpha:
+                break
         return best_score
     
 
@@ -104,13 +110,14 @@ def find_best_move(board, ai_symbol):
     
     for row, col in empty_pos:
         board[row][col] = ai_symbol
-        score = minimax(board, ai_symbol, 0, False)
+        score = minimax(board, ai_symbol, 0, False, float("-inf"), float("inf"))
         board[row][col] = " "
         
-        if score > best_score:
+        if score >= best_score:
             best_score = score
             best_move = (row, col)
             print(f"Terminator thinks the best move is: {best_move}")
+            
     return best_move
 
 def replay_game():

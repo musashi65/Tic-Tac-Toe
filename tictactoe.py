@@ -116,8 +116,7 @@ def find_best_move(board, ai_symbol):
         if score >= best_score:
             best_score = score
             best_move = (row, col)
-            print(f"Terminator thinks the best move is: {best_move}")
-            
+    print(f"Terminator thinks the best move is: {best_move}")        
     return best_move
 
 def replay_game():
